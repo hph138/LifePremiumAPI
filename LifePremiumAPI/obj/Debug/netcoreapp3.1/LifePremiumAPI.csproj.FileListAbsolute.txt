@@ -33,3 +33,4 @@ C:\Users\hngpgq\source\repos\LifePremiumAPI\LifePremiumAPI\bin\Debug\netcoreapp3
 C:\Users\hngpgq\source\repos\LifePremiumAPI\LifePremiumAPI\bin\Debug\netcoreapp3.1\System.ComponentModel.Annotations.dll
 C:\Users\hngpgq\source\repos\LifePremiumAPI\LifePremiumAPI\bin\Debug\netcoreapp3.1\System.Diagnostics.DiagnosticSource.dll
 C:\Users\hngpgq\source\repos\LifePremiumAPI\LifePremiumAPI\obj\Debug\netcoreapp3.1\LifePremiumAPI.csproj.CopyComplete
+C:\Users\hngpgq\source\repos\LifePremiumAPI\LifePremiumAPI\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll

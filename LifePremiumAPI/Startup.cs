@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LifePremiumAPI.Middleware;
 
 namespace LifePremiumAPI
 {
@@ -40,7 +41,7 @@ namespace LifePremiumAPI
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.ConfigCustomExceptionMiddleware();
            
             app.UseHttpsRedirection();
 
