@@ -26,7 +26,7 @@ namespace LifePremiumAPI.Controllers
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
-            throw new Exception("HHHHHHHHHHHHH");
+            //throw new Exception("HHHHHHHHHHHHH") testing custom exception;
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
