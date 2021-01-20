@@ -1,8 +1,5 @@
 ﻿using LifePremiumAPI;
-using LifePremiumAPI.Model;
-using System;
-using System.Collections.Generic;
-using System.Net;
+
 using System.Threading.Tasks;
 using Xunit;
 using Microsoft.AspNetCore.TestHost;
@@ -10,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
+using System.Text;
 
 namespace LifePremiumAPITest
 {
@@ -38,5 +37,32 @@ namespace LifePremiumAPITest
 
         }
 
+        struct PayLoad
+        {
+            public int Age;
+            public double Amount;
+            public int RateId;
+        }
+
+        [Fact]
+        public async Task GetCalculationPostAsync()
+        {
+            HttpResponseMessage HttpResponseMessage = null;
+            var request = new HttpRequestMessage(new HttpMethod("POST"), "/Calculations/");
+          
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            PayLoad payLoad = new PayLoad();
+            payLoad.Age = 50;
+            payLoad.Amount = 10000;
+            payLoad.RateId = 1;
+
+            var httpContent = new StringContent(JsonConvert.SerializeObject(payLoad), Encoding.UTF8, "application/json");
+            HttpResponseMessage = await client.PostAsync("/Calculations/", httpContent);
+            var calc = JObject.Parse(HttpResponseMessage.Content.ReadAsStringAsync().Result);
+            Assert.Equal("6000", calc["premium"].ToString());
+        }
+
     }
+
+
 }
