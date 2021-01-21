@@ -31,7 +31,7 @@ namespace LifePremiumAPI.Controllers
         public async Task<IActionResult> Get([FromBody] JsonElement body)
         {
             List<Factor> factors = _apiContext.GetFactors();
-            Calculation calculation =  System.Text.Json.JsonSerializer.Deserialize<Calculation>(System.Text.Json.JsonSerializer.Serialize(body));
+            Calculation calculation = JsonSerializer.Deserialize<Calculation>(body.ToString());
             decimal rate = await GetRate(calculation.RateId,factors);
 
             var data = new
