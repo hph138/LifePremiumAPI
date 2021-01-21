@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30711.63
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LifePremiumAPI", "LifePremiumAPI\LifePremiumAPI.csproj", "{82CFBF7D-5E8B-4AA2-94BA-9FD2726EF87F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LifePremiumAPITest", "LifePremiumAPITest\LifePremiumAPITest.csproj", "{4795E4C3-7C07-4960-83EC-FC479E39F785}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LifePremiumAPITest", "LifePremiumAPITest\LifePremiumAPITest.csproj", "{4795E4C3-7C07-4960-83EC-FC479E39F785}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LifePremiumApp", "LifePremiumApp\LifePremiumApp.csproj", "{D825D295-833C-49CF-8910-68F1A6C51CFE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{4795E4C3-7C07-4960-83EC-FC479E39F785}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4795E4C3-7C07-4960-83EC-FC479E39F785}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4795E4C3-7C07-4960-83EC-FC479E39F785}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D825D295-833C-49CF-8910-68F1A6C51CFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D825D295-833C-49CF-8910-68F1A6C51CFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D825D295-833C-49CF-8910-68F1A6C51CFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D825D295-833C-49CF-8910-68F1A6C51CFE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

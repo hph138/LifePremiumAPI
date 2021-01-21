@@ -1,0 +1,88 @@
+﻿@page "/calculatepremium"
+
+@using System.ComponentModel.DataAnnotations;
+@using LifePremiumApp.Services;
+@using LifePremiumApp.Data;
+@using LifePremiumApp.Model;
+
+@inject IOccupationService occupationService
+@inject IFactorService factorService
+
+
+<h1>Calculate Premium</h1>
+<br />
+<p class="card-text">Please enter mandatory fields and click the 'Ok' button to get the premium</p>
+<br />
+
+@if (occupations == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    
+<EditForm EditContext="@context">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="row content">
+        <div class="col-md-2"><label for="firstName"> First Name</label></div>
+        <div class="col-md-3"><InputText id="firstName" @bind-Value="@model.FirstName" /></div>
+    </div>
+    <div class="row content">
+        <div class="col-md-2"><label for="lastName"> Last Name</label></div>
+        <div class="col-md-3"><InputText id="lastName" @bind-Value="@model.LastName" /></div>
+    </div>
+    <div class="row content">
+        <div class="col-md-2"><label for="age"> Age</label></div>
+        <div class="col-md-3"><InputNumber @bind-Value=@model.Age id="age" ParsingErrorMessage="Must be an integer value" style="width: 100px;" /></div>
+    </div>
+    <div class="row content">
+        <div class="col-md-2"><label for="dob"> Dob</label></div>
+        <div class="col-md-3"><InputDate @bind-Value="model.Dob" /></div>
+    </div>
+    <div class="row content">
+        <div class="col-md-2"> <label for="occupation"> Occupation</label></div>
+        <div class="col-md-3">
+            <InputSelect id="occupation"   @bind-Value="@model.RateId" style="width: 300px;" >
+                @foreach (var option in occupations)
+                    {
+                    <option  value="@option.RateId.ToString()">
+                        @option.Name
+                    </option>
+                    }
+            </InputSelect>
+        </div>
+    </div>
+</EditForm>
+    <button type="button" @onclick="@SubmitHandler" class="btn btn-primary" style="width: 100px;">Submit</button>
+   
+}
+
+@code {
+    IEnumerable<Occupation> occupations;
+    private int occupationRateId;
+    private CalculateModel model { get; set; } = new CalculateModel { Dob = null };
+    private EditContext context { get; set; }
+    private string defaultSelect = "9999";
+
+    protected override async Task OnInitializedAsync()
+    {
+        context = new EditContext(model);
+        base.OnInitialized();
+        occupations = await occupationService.GetOccupations();
+        if (occupations != null) {
+            Occupation occ = new Occupation { Id = 9999, Name = "---Select---", RateId = -1 };
+            occupations.Append(occ);
+        }
+    }
+
+    private void SubmitHandler()
+    {
+        context.Validate();
+
+    }
+
+}
+
+
+

@@ -1,0 +1,19 @@
+﻿@page "/"
+
+@inject NavigationManager UriHelper
+
+<h1>TAL</h1>
+
+Welcome to TAL LIfe  Premium Calculator.
+
+<br />
+<button class="btn btn-primary" @onclick='@(() => Start("calculatepremium"))'>
+    Go to Calculation
+</button>
+@code {
+
+    private void Start(string target)
+    {
+        UriHelper.NavigateTo($"/{target}", true);
+    }
+}

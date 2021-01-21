@@ -1,4 +1,5 @@
 ﻿using LifePremiumAPI.Model;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace LifePremiumAPI.Controllers
 
         // GET api/<ValuesController>/5
         [HttpGet("{age}/{amount}/{rating}")]
+        [EnableCors()]
         public async Task<IActionResult> Get(int age, double amount, int rating)
         {
             List<Factor> factors = _apiContext.GetFactors();

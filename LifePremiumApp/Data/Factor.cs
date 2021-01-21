@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LifePremiumAPI.Model
+namespace LifePremiumApp.Data
 {
-    public class Occupation
-    {   
+    public class Factor
+    {
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public int RateId { get; set; }
+        public Double Point { get; set; }
+
     }
 }
