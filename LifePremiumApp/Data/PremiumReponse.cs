@@ -7,6 +7,6 @@ namespace LifePremiumApp.Data
 {
     public class PremiumResponse
     {
-        public double Premium { get; set; }
+        public decimal Premium { get; set; }
     }
 }

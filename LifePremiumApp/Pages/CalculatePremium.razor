@@ -7,7 +7,7 @@
 
 @inject IOccupationService occupationService
 @inject IFactorService factorService
-
+@inject ICalculatePremium calcPremiumService
 
 <h1>Calculate Premium</h1>
 <br />
@@ -41,17 +41,33 @@ else
         <div class="col-md-3"><InputDate @bind-Value="model.Dob" /></div>
     </div>
     <div class="row content">
+        <div class="col-md-2"><label for="amount"> Death - Sum Insured</label></div>
+        <div class="col-md-3"><InputNumber @bind-Value=@model.Amount id="amount"  style="width: 100px;" /></div>
+    </div>
+    <div class="row content">
         <div class="col-md-2"> <label for="occupation"> Occupation</label></div>
         <div class="col-md-3">
-            <InputSelect id="occupation"   @bind-Value="@model.RateId" style="width: 300px;" >
-                @foreach (var option in occupations)
-                    {
-                    <option  value="@option.RateId.ToString()">
-                        @option.Name
-                    </option>
-                    }
-            </InputSelect>
+            @*<InputSelect id="occupation"  Value="@model.RateId" ValueExpression="@(()=>model.RateId)"  ValueChanged="@((string value) => onChanged(value))"  style="width: 300px;">
+            <option value="999">---select---</option>
+            @foreach (var option in occupations)
+                {
+                <option value="@option.RateId.ToString()">
+                    @option.Name
+                </option>
+                }
+        </InputSelect>*@
+            <select class="form-control selectpicker" @bind="@RateId">
+                <option value="0">--select--</option>
+                @foreach (var item in occupations)
+                {
+                    <option value="@item.RateId">@item.Name</option>
+                }
+            </select>
         </div>
+    </div>
+    <div class="row content">
+        <div class="col-md-2"><label for="premium"> Premium</label></div>
+        <div class="col-md-3"><InputNumber id="premium" @bind-Value="@model.Premium"  disabled="disabled" /></div>
     </div>
 </EditForm>
     <button type="button" @onclick="@SubmitHandler" class="btn btn-primary" style="width: 100px;">Submit</button>
@@ -65,21 +81,48 @@ else
     private EditContext context { get; set; }
     private string defaultSelect = "9999";
 
+    private int? _rateId = null;
+    private int? RateId
+    {
+        get
+        {
+            return _rateId;
+        }
+        set
+        {
+            _rateId = value;
+            onChanged(_rateId);
+        }
+    }
+
+
     protected override async Task OnInitializedAsync()
     {
         context = new EditContext(model);
         base.OnInitialized();
         occupations = await occupationService.GetOccupations();
-        if (occupations != null) {
-            Occupation occ = new Occupation { Id = 9999, Name = "---Select---", RateId = -1 };
-            occupations.Append(occ);
-        }
+
     }
 
+    //private void onChange()
+    //{
+    //    context.Validate();
+
+    //}
     private void SubmitHandler()
     {
         context.Validate();
+    }
 
+    private void onChanged(int? value)
+    {
+        model.RateId = value != null ? Convert.ToInt32(value) : 0;
+        if (context.Validate())
+        {
+            var premium = calcPremiumService.GetPremium(model).Result;
+            model.Premium = premium;
+            StateHasChanged();
+        }
     }
 
 }

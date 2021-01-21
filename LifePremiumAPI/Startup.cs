@@ -41,7 +41,7 @@ namespace LifePremiumAPI
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.ConfigCustomExceptionMiddleware();
+           app.ConfigCustomExceptionMiddleware();
            
             app.UseHttpsRedirection();
 

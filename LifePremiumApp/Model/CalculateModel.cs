@@ -22,7 +22,9 @@ namespace LifePremiumApp.Model
         public DateTime? Dob { get; set; }
 
         [Required]
-        public double Amount { get; set; }
-        public string RateId { get; set; }
+        public decimal Amount { get; set; }
+        public int RateId { get; set; }
+
+        public decimal Premium { get; set; }
     }
 }

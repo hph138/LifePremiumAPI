@@ -8,8 +8,9 @@ namespace LifePremiumAPI.Model
     public class Calculation
     {
         public int Age { get; set; }
-        public double Amount { get; set; }
+        public decimal Amount { get; set; }
 
         public int RateId { get; set; }
+        public decimal Premium { get; set; }
     }
 }

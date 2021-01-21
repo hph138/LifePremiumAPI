@@ -1,11 +1,13 @@
-﻿using System;
+﻿using LifePremiumApp.Data;
+using System;
 using System.Collections.Generic;
-using System.Linq;
+using LifePremiumApp.Model;
 using System.Threading.Tasks;
 
 namespace LifePremiumApp.Services
 {
-    interface ICalculatePremium
+   public  interface ICalculatePremium
     {
+     Task<decimal> GetPremium(CalculateModel model);
     }
 }

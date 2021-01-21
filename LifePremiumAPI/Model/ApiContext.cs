@@ -18,13 +18,13 @@ namespace LifePremiumAPI.Model
 
         public void LoadFactors()
         {
-            Factor factor = new Factor() { Id = 1, Name = "Professional", Point = 1.0 };
+            Factor factor = new Factor() { Id = 1, Name = "Professional", Point = 1.0M };
             Factors.Add(factor);
-            factor = new Factor() { Id = 2, Name = "White Collar", Point = 1.25 };
+            factor = new Factor() { Id = 2, Name = "White Collar", Point = 1.25M };
             Factors.Add(factor);
-            factor = new Factor() { Id = 3, Name = "Light Manual", Point = 1.50 };
+            factor = new Factor() { Id = 3, Name = "Light Manual", Point = 1.50M };
             Factors.Add(factor);
-            factor = new Factor() { Id = 4, Name = "Heavy Manual", Point = 1.75 };
+            factor = new Factor() { Id = 4, Name = "Heavy Manual", Point = 1.75M };
             Factors.Add(factor);
         }
         public void LoadOccupations()

@@ -10,6 +10,6 @@ namespace LifePremiumAPI.Model
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public Double Point { get; set; }
+        public decimal Point { get; set; }
     }
 }

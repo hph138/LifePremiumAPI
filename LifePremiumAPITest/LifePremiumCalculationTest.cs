@@ -24,23 +24,10 @@ namespace LifePremiumAPITest
             client = server.CreateClient();
         }
 
-        [Fact]
-        public async Task GetCalculationAsync()
-        {
-
-            var request = new HttpRequestMessage(new HttpMethod("GET"), "/Calculations/50/10000/1");
-            var response = client.GetAsync(request.RequestUri.ToString()).Result;
-            string responseBody = await response.Content.ReadAsStringAsync();
-
-            var calc = JObject.Parse(responseBody);
-            Assert.Equal("6000", calc["premium"].ToString());
-
-        }
-
         struct PayLoad
         {
             public int Age;
-            public double Amount;
+            public decimal Amount;
             public int RateId;
         }
 

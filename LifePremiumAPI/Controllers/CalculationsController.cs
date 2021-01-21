@@ -21,21 +21,8 @@ namespace LifePremiumAPI.Controllers
             _apiContext = apiContext;
         }
 
-        // GET api/<ValuesController>/5
-        [HttpGet("{age}/{amount}/{rating}")]
-        [EnableCors()]
-        public async Task<IActionResult> Get(int age, double amount, int rating)
-        {
-            List<Factor> factors = _apiContext.GetFactors();
-            double rate = await GetRate(rating, factors);
-            var data = new
-            {
-                premium = amount * rate * age / 1000 * 12
-            };
-            return Ok(data);
-        }
 
-        private async Task<double> GetRate(int rating, List<Factor> factors)
+        private async Task<decimal> GetRate(int rating, List<Factor> factors)
         {
             return factors.Where(x => x.Id.Equals(rating)).First().Point;
         }
@@ -45,7 +32,7 @@ namespace LifePremiumAPI.Controllers
         {
             List<Factor> factors = _apiContext.GetFactors();
             Calculation calculation =  System.Text.Json.JsonSerializer.Deserialize<Calculation>(System.Text.Json.JsonSerializer.Serialize(body));
-            double rate = await GetRate(calculation.RateId,factors);
+            decimal rate = await GetRate(calculation.RateId,factors);
 
             var data = new
             {
