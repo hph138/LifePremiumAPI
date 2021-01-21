@@ -47,15 +47,7 @@ else
     <div class="row content">
         <div class="col-md-2"> <label for="occupation"> Occupation</label></div>
         <div class="col-md-3">
-            @*<InputSelect id="occupation"  Value="@model.RateId" ValueExpression="@(()=>model.RateId)"  ValueChanged="@((string value) => onChanged(value))"  style="width: 300px;">
-            <option value="999">---select---</option>
-            @foreach (var option in occupations)
-                {
-                <option value="@option.RateId.ToString()">
-                    @option.Name
-                </option>
-                }
-        </InputSelect>*@
+        
             <select class="form-control selectpicker" @bind="@RateId">
                 <option value="0">--select--</option>
                 @foreach (var item in occupations)
@@ -70,7 +62,7 @@ else
         <div class="col-md-3"><InputNumber id="premium" @bind-Value="@model.Premium"  disabled="disabled" /></div>
     </div>
 </EditForm>
-    <button type="button" @onclick="@SubmitHandler" class="btn btn-primary" style="width: 100px;">Submit</button>
+   
    
 }
 
@@ -104,23 +96,13 @@ else
 
     }
 
-    //private void onChange()
-    //{
-    //    context.Validate();
-
-    //}
-    private void SubmitHandler()
-    {
-        context.Validate();
-    }
-
     private void onChanged(int? value)
     {
         model.RateId = value != null ? Convert.ToInt32(value) : 0;
         if (context.Validate())
         {
             var premium = calcPremiumService.GetPremium(model).Result;
-            model.Premium = premium;
+            model.Premium = Convert.ToDecimal(premium.ToString("0.00"));
             StateHasChanged();
         }
     }
