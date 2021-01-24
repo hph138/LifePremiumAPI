@@ -18,7 +18,7 @@ namespace LifePremiumApp.Services
         }
         public  async Task<decimal> GetPremium(CalculateModel calculateModel)
         {
-            string premiumJobj= await _httpDataService.GetDataPostAsync("calculations", calculateModel);
+           string premiumJobj= await _httpDataService.GetDataPostAsync("calculations", calculateModel);
             PremiumResponse premiumResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<PremiumResponse>(premiumJobj);
            return premiumResponse.Premium;
             

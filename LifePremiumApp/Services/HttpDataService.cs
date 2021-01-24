@@ -30,14 +30,21 @@ namespace LifePremiumApp.Services
 
         public async Task<string> GetDataPostAsync(string controller, dynamic obj)
         {
-        
-            HttpResponseMessage httpResponseMessage = null;
-            var request = new HttpRequestMessage(new HttpMethod("POST"), $"/{controller}/");
-            _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            var httpContent = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
-            httpResponseMessage =  _client.PostAsync($"/{controller}/", httpContent).GetAwaiter().GetResult();
-
-            return await httpResponseMessage.Content.ReadAsStringAsync();
+            try
+            {
+                HttpResponseMessage httpResponseMessage = null;
+                var request = new HttpRequestMessage(new HttpMethod("POST"), $"/{controller}/");
+                _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                var httpContent = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
+                httpResponseMessage = _client.PostAsync($"/{controller}/", httpContent).GetAwaiter().GetResult();
+                httpResponseMessage.EnsureSuccessStatusCode();
+                return await httpResponseMessage.Content.ReadAsStringAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            
         }
     }
 }

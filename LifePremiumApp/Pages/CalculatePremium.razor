@@ -9,61 +9,70 @@
 @inject IFactorService factorService
 @inject ICalculatePremium calcPremiumService
 
-<h1>Calculate Premium</h1>
-<br />
-<p class="card-text">Please enter mandatory fields and click the 'Ok' button to get the premium</p>
-<br />
+
+@if (!failed)
+{
+    <h1>Calculate Premium</h1>
+    <br />
+    <p class="card-text">Please enter mandatory fields and click the 'Ok' button to get the premium</p>
+    <br />
+
+}
 
 @if (occupations == null)
 {
     <p><em>Loading...</em></p>
 }
+else if (failed)
+{
+    <h3>Sorry, this page cannot be loaded due to an error. </h3>
+}
 else
 {
-    
-<EditForm EditContext="@context">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-    <div class="row content">
-        <div class="col-md-2"><label for="firstName"> First Name</label></div>
-        <div class="col-md-3"><InputText id="firstName" @bind-Value="@model.FirstName" /></div>
-    </div>
-    <div class="row content">
-        <div class="col-md-2"><label for="lastName"> Last Name</label></div>
-        <div class="col-md-3"><InputText id="lastName" @bind-Value="@model.LastName" /></div>
-    </div>
-    <div class="row content">
-        <div class="col-md-2"><label for="age"> Age</label></div>
-        <div class="col-md-3"><InputNumber @bind-Value=@model.Age id="age" ParsingErrorMessage="Must be an integer value" style="width: 100px;" /></div>
-    </div>
-    <div class="row content">
-        <div class="col-md-2"><label for="dob"> Dob</label></div>
-        <div class="col-md-3"><InputDate @bind-Value="model.Dob" /></div>
-    </div>
-    <div class="row content">
-        <div class="col-md-2"><label for="amount"> Death - Sum Insured</label></div>
-        <div class="col-md-3"><InputNumber @bind-Value=@model.Amount id="amount"  style="width: 100px;" /></div>
-    </div>
-    <div class="row content">
-        <div class="col-md-2"> <label for="occupation"> Occupation</label></div>
-        <div class="col-md-3">
-        
-            <select class="form-control selectpicker" @bind="@RateId">
-                <option value="0">--select--</option>
-                @foreach (var item in occupations)
-                {
-                    <option value="@item.RateId">@item.Name</option>
-                }
-            </select>
+
+    <EditForm EditContext="@context">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="row content">
+            <div class="col-md-2"><label for="firstName"> First Name</label></div>
+            <div class="col-md-3"><InputText id="firstName" @bind-Value="@model.FirstName" /></div>
         </div>
-    </div>
-    <div class="row content">
-        <div class="col-md-2"><label for="premium"> Premium</label></div>
-        <div class="col-md-3"><InputNumber id="premium" @bind-Value="@model.Premium"  disabled="disabled" /></div>
-    </div>
-</EditForm>
-   
-   
+        <div class="row content">
+            <div class="col-md-2"><label for="lastName"> Last Name</label></div>
+            <div class="col-md-3"><InputText id="lastName" @bind-Value="@model.LastName" /></div>
+        </div>
+        <div class="row content">
+            <div class="col-md-2"><label for="age"> Age</label></div>
+            <div class="col-md-3"><InputNumber @bind-Value=@model.Age id="age" ParsingErrorMessage="Must be an integer value" style="width: 100px;" /></div>
+        </div>
+        <div class="row content">
+            <div class="col-md-2"><label for="dob"> Dob</label></div>
+        <div class="col-md-3"><InputDate @bind-Value="model.Dob" /></div>
+        </div>
+        <div class="row content">
+            <div class="col-md-2"><label for="amount"> Death - Sum Insured</label></div>
+            <div class="col-md-3"><InputNumber @bind-Value=@model.Amount id="amount" style="width: 100px;" /></div>
+        </div>
+        <div class="row content">
+            <div class="col-md-2"> <label for="occupation"> Occupation</label></div>
+            <div class="col-md-3">
+
+                <select class="form-control selectpicker" @bind="@RateId">
+                    <option value="0">--select--</option>
+                    @foreach (var item in occupations)
+                    {
+                        <option value="@item.RateId">@item.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="row content">
+            <div class="col-md-2"><label for="premium"> Premium</label></div>
+            <div class="col-md-3"><InputNumber id="premium" @bind-Value="@model.Premium" disabled="disabled" /></div>
+        </div>
+    </EditForm>
+
+
 }
 
 @code {
@@ -72,7 +81,7 @@ else
     private CalculateModel model { get; set; } = new CalculateModel { Dob = null };
     private EditContext context { get; set; }
     private string defaultSelect = "9999";
-
+    private bool failed;
     private int? _rateId = null;
     private int? RateId
     {
@@ -87,26 +96,32 @@ else
         }
     }
 
-
     protected override async Task OnInitializedAsync()
     {
         context = new EditContext(model);
         base.OnInitialized();
         occupations = await occupationService.GetOccupations();
-
     }
 
     private void onChanged(int? value)
     {
-        model.RateId = value != null ? Convert.ToInt32(value) : 0;
-        if (context.Validate())
+        try
         {
-            var premium = calcPremiumService.GetPremium(model).Result;
-            model.Premium = Convert.ToDecimal(premium.ToString("0.00"));
-            StateHasChanged();
+            model.RateId = value != null ? Convert.ToInt32(value) : 0;
+            if (context.Validate())
+            {
+                var premium = calcPremiumService.GetPremium(model).Result;
+                model.Premium = Convert.ToDecimal(premium.ToString("0.00"));
+                StateHasChanged();
+            }
         }
-    }
+        catch (Exception)
+        {
+            failed = true;
+        }
 
+    }
+   
 }
 
 
